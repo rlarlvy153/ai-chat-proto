@@ -64,11 +64,32 @@
         height: 100%;
       }
 
-      .slide img {
+      .slide > img {
         display: block;
         width: 100%;
         height: 100%;
+        filter: saturate(1.28) contrast(1.12) brightness(1.04)
+          drop-shadow(0 0 18px rgba(255, 255, 255, 0.12));
+        transform: scale(1.035);
+        animation: portrait-drift 8s ease-in-out infinite alternate;
         object-fit: cover;
+        pointer-events: none;
+      }
+
+      .slide::before {
+        position: absolute;
+        inset: 0;
+        content: "";
+        background:
+          linear-gradient(135deg, rgba(255, 137, 180, 0.16), transparent 34%),
+          linear-gradient(315deg, rgba(107, 223, 255, 0.15), transparent 38%),
+          radial-gradient(
+            circle at 50% 22%,
+            rgba(255, 255, 255, 0.14),
+            transparent 34%
+          );
+        mix-blend-mode: screen;
+        opacity: 0.72;
         pointer-events: none;
       }
 
@@ -78,8 +99,79 @@
         content: "";
         background:
           linear-gradient(to bottom, rgba(0, 0, 0, 0.08), transparent 34%),
-          linear-gradient(to top, rgba(0, 0, 0, 0.38), transparent 34%);
+          linear-gradient(to top, rgba(0, 0, 0, 0.72), transparent 44%);
         pointer-events: none;
+      }
+
+      @keyframes portrait-drift {
+        from {
+          transform: scale(1.035) translate3d(-1.5%, -1%, 0);
+        }
+
+        to {
+          transform: scale(1.07) translate3d(1.5%, 1%, 0);
+        }
+      }
+
+      .profile {
+        position: absolute;
+        right: 16px;
+        bottom: 20px;
+        left: 16px;
+        z-index: 1;
+        display: grid;
+        grid-template-columns: 40px minmax(0, 1fr);
+        align-items: end;
+        gap: 12px;
+        color: #ffffff;
+        pointer-events: none;
+      }
+
+      .profile-avatar {
+        width: 40px;
+        height: 40px;
+        flex: 0 0 auto;
+        border: 2px solid rgba(255, 255, 255, 0.88);
+        border-radius: 50%;
+        filter: saturate(1.18) contrast(1.08) brightness(1.04);
+        object-fit: cover;
+      }
+
+      .slide .profile-avatar {
+        width: 40px;
+        height: 40px;
+      }
+
+      .profile-copy {
+        min-width: 0;
+      }
+
+      .profile-name {
+        display: block;
+        overflow: hidden;
+        font-family:
+          Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+          "Segoe UI", sans-serif;
+        font-size: 16px;
+        font-weight: 800;
+        line-height: 1.15;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .profile-greeting {
+        display: block;
+        overflow: hidden;
+        margin-top: 4px;
+        color: rgba(255, 255, 255, 0.86);
+        font-family:
+          Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+          "Segoe UI", sans-serif;
+        font-size: 12px;
+        font-weight: 600;
+        line-height: 1.35;
+        text-overflow: ellipsis;
+        white-space: nowrap;
       }
 
       @media (max-width: 380px), (max-height: 700px) {
@@ -100,6 +192,18 @@
               alt="Jennie 인물 사진"
               draggable="false"
             />
+            <div class="profile" aria-label="Jennie 프로필">
+              <img
+                class="profile-avatar"
+                src="https://upload.wikimedia.org/wikipedia/commons/7/78/Jennie_2026_GDA_1.jpg"
+                alt=""
+                draggable="false"
+              />
+              <div class="profile-copy">
+                <span class="profile-name">Jennie</span>
+                <span class="profile-greeting">오늘도 반갑습니다.</span>
+              </div>
+            </div>
           </article>
           <article class="slide">
             <img
@@ -107,6 +211,18 @@
               alt="Jisoo 인물 사진"
               draggable="false"
             />
+            <div class="profile" aria-label="Jisoo 프로필">
+              <img
+                class="profile-avatar"
+                src="https://upload.wikimedia.org/wikipedia/commons/2/2e/Jisoo_at_Boyfriend_on_Demand_press_conference_on_26022026_%2812%29.png"
+                alt=""
+                draggable="false"
+              />
+              <div class="profile-copy">
+                <span class="profile-name">Jisoo</span>
+                <span class="profile-greeting">좋은 하루 보내세요.</span>
+              </div>
+            </div>
           </article>
           <article class="slide">
             <img
@@ -114,6 +230,18 @@
               alt="Karina 인물 사진"
               draggable="false"
             />
+            <div class="profile" aria-label="Karina 프로필">
+              <img
+                class="profile-avatar"
+                src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/fb/Karina_at_Love_Your_W_event_2025.jpg/1280px-Karina_at_Love_Your_W_event_2025.jpg"
+                alt=""
+                draggable="false"
+              />
+              <div class="profile-copy">
+                <span class="profile-name">Karina</span>
+                <span class="profile-greeting">지금 기분은 어떤가요?</span>
+              </div>
+            </div>
           </article>
           <article class="slide">
             <img
@@ -121,6 +249,18 @@
               alt="Jang Won-young 인물 사진"
               draggable="false"
             />
+            <div class="profile" aria-label="Wonyoung 프로필">
+              <img
+                class="profile-avatar"
+                src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/07/Jang_Won-young_at_the_Bulgari_Eclettica_event_in_Seoul%2C_May_12%2C_2026_%281%29.png/1280px-Jang_Won-young_at_the_Bulgari_Eclettica_event_in_Seoul%2C_May_12%2C_2026_%281%29.png"
+                alt=""
+                draggable="false"
+              />
+              <div class="profile-copy">
+                <span class="profile-name">Wonyoung</span>
+                <span class="profile-greeting">오늘도 예쁘게 시작해요.</span>
+              </div>
+            </div>
           </article>
           <article class="slide">
             <img
@@ -128,6 +268,18 @@
               alt="An Yu-jin 인물 사진"
               draggable="false"
             />
+            <div class="profile" aria-label="Yujin 프로필">
+              <img
+                class="profile-avatar"
+                src="https://upload.wikimedia.org/wikipedia/commons/f/f0/IVE_Yujin_2026_GDA.jpg"
+                alt=""
+                draggable="false"
+              />
+              <div class="profile-copy">
+                <span class="profile-name">Yujin</span>
+                <span class="profile-greeting">즐거운 시간 보내세요.</span>
+              </div>
+            </div>
           </article>
         </div>
       </section>
