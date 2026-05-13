@@ -32,6 +32,7 @@
       }
 
       .carousel {
+        position: relative;
         width: 100%;
         height: 100%;
         overflow: hidden;
@@ -59,44 +60,17 @@
 
       .slide {
         position: relative;
-        isolation: isolate;
-        overflow: hidden;
         flex: 0 0 100%;
         width: 100%;
         height: 100%;
       }
 
-      .slide > img {
-        position: relative;
-        z-index: 0;
+      .slide img {
         display: block;
         width: 100%;
         height: 100%;
-        filter: saturate(1.28) contrast(1.12) brightness(1.04)
-          drop-shadow(0 0 18px rgba(255, 255, 255, 0.12));
-        transform: scale(1.035);
-        animation: portrait-drift 8s ease-in-out infinite alternate;
         object-fit: cover;
         pointer-events: none;
-        will-change: transform, filter;
-      }
-
-      .slide::before {
-        position: absolute;
-        inset: 0;
-        content: "";
-        background:
-          linear-gradient(135deg, rgba(255, 137, 180, 0.16), transparent 34%),
-          linear-gradient(315deg, rgba(107, 223, 255, 0.15), transparent 38%),
-          radial-gradient(
-            circle at 50% 22%,
-            rgba(255, 255, 255, 0.14),
-            transparent 34%
-          );
-        mix-blend-mode: screen;
-        opacity: 0.72;
-        pointer-events: none;
-        z-index: 1;
       }
 
       .slide::after {
@@ -107,17 +81,59 @@
           linear-gradient(to bottom, rgba(0, 0, 0, 0.08), transparent 34%),
           linear-gradient(to top, rgba(0, 0, 0, 0.72), transparent 44%);
         pointer-events: none;
-        z-index: 2;
       }
 
-      @keyframes portrait-drift {
-        from {
-          transform: scale(1.035) translate3d(-1.5%, -1%, 0);
-        }
+      .photo-indicator {
+        position: absolute;
+        top: 14px;
+        right: 16px;
+        left: 16px;
+        z-index: 1;
+        display: grid;
+        grid-template-columns: repeat(var(--photo-count), 1fr);
+        gap: 5px;
+        pointer-events: none;
+      }
 
-        to {
-          transform: scale(1.07) translate3d(1.5%, 1%, 0);
-        }
+      .photo-indicator span {
+        height: 3px;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.26);
+      }
+
+      .photo-indicator span.is-active {
+        background: #ffffff;
+      }
+
+      .gesture-hint {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        z-index: 2;
+        width: min(248px, calc(100% - 44px));
+        padding: 14px 16px;
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        border-radius: 18px;
+        background: rgba(0, 0, 0, 0.46);
+        color: #ffffff;
+        font-family:
+          Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+          "Segoe UI", sans-serif;
+        font-size: 12px;
+        font-weight: 700;
+        line-height: 1.55;
+        text-align: center;
+        opacity: 1;
+        pointer-events: none;
+        transform: translate(-50%, -50%);
+        transition:
+          opacity 180ms ease,
+          transform 180ms ease;
+      }
+
+      .gesture-hint.is-hidden {
+        opacity: 0;
+        transform: translate(-50%, -46%);
       }
 
       .profile {
@@ -125,7 +141,7 @@
         right: 16px;
         bottom: 20px;
         left: 16px;
-        z-index: 3;
+        z-index: 1;
         display: grid;
         grid-template-columns: 40px minmax(0, 1fr);
         align-items: end;
@@ -140,7 +156,6 @@
         flex: 0 0 auto;
         border: 2px solid rgba(255, 255, 255, 0.88);
         border-radius: 50%;
-        filter: saturate(1.18) contrast(1.08) brightness(1.04);
         object-fit: cover;
       }
 
@@ -188,112 +203,15 @@
         }
       }
 
-      @media (prefers-reduced-motion: reduce) {
-        .slide > img {
-          animation: none;
-        }
-      }
     </style>
   </head>
   <body>
     <main class="mobile-screen" aria-label="모바일 사진 스와이프 프로토타입">
       <section class="carousel" aria-label="사진 캐러셀">
-        <div class="track">
-          <article class="slide">
-            <img
-              src="https://upload.wikimedia.org/wikipedia/commons/7/78/Jennie_2026_GDA_1.jpg"
-              alt="Jennie 인물 사진"
-              draggable="false"
-            />
-            <div class="profile" aria-label="Jennie 프로필">
-              <img
-                class="profile-avatar"
-                src="https://upload.wikimedia.org/wikipedia/commons/7/78/Jennie_2026_GDA_1.jpg"
-                alt=""
-                draggable="false"
-              />
-              <div class="profile-copy">
-                <span class="profile-name">Jennie</span>
-                <span class="profile-greeting">눈 마주친 김에, 조금 더 머물러요.</span>
-              </div>
-            </div>
-          </article>
-          <article class="slide">
-            <img
-              src="https://upload.wikimedia.org/wikipedia/commons/2/2e/Jisoo_at_Boyfriend_on_Demand_press_conference_on_26022026_%2812%29.png"
-              alt="Jisoo 인물 사진"
-              draggable="false"
-            />
-            <div class="profile" aria-label="Jisoo 프로필">
-              <img
-                class="profile-avatar"
-                src="https://upload.wikimedia.org/wikipedia/commons/2/2e/Jisoo_at_Boyfriend_on_Demand_press_conference_on_26022026_%2812%29.png"
-                alt=""
-                draggable="false"
-              />
-              <div class="profile-copy">
-                <span class="profile-name">Jisoo</span>
-                <span class="profile-greeting">오늘은 제게만 집중해 주실래요?</span>
-              </div>
-            </div>
-          </article>
-          <article class="slide">
-            <img
-              src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/fb/Karina_at_Love_Your_W_event_2025.jpg/1280px-Karina_at_Love_Your_W_event_2025.jpg"
-              alt="Karina 인물 사진"
-              draggable="false"
-            />
-            <div class="profile" aria-label="Karina 프로필">
-              <img
-                class="profile-avatar"
-                src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/fb/Karina_at_Love_Your_W_event_2025.jpg/1280px-Karina_at_Love_Your_W_event_2025.jpg"
-                alt=""
-                draggable="false"
-              />
-              <div class="profile-copy">
-                <span class="profile-name">Karina</span>
-                <span class="profile-greeting">천천히 넘겨도 괜찮아요.</span>
-              </div>
-            </div>
-          </article>
-          <article class="slide">
-            <img
-              src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/07/Jang_Won-young_at_the_Bulgari_Eclettica_event_in_Seoul%2C_May_12%2C_2026_%281%29.png/1280px-Jang_Won-young_at_the_Bulgari_Eclettica_event_in_Seoul%2C_May_12%2C_2026_%281%29.png"
-              alt="Jang Won-young 인물 사진"
-              draggable="false"
-            />
-            <div class="profile" aria-label="Wonyoung 프로필">
-              <img
-                class="profile-avatar"
-                src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/07/Jang_Won-young_at_the_Bulgari_Eclettica_event_in_Seoul%2C_May_12%2C_2026_%281%29.png/1280px-Jang_Won-young_at_the_Bulgari_Eclettica_event_in_Seoul%2C_May_12%2C_2026_%281%29.png"
-                alt=""
-                draggable="false"
-              />
-              <div class="profile-copy">
-                <span class="profile-name">Wonyoung</span>
-                <span class="profile-greeting">지금 이 순간, 조금 설레도 괜찮아요.</span>
-              </div>
-            </div>
-          </article>
-          <article class="slide">
-            <img
-              src="https://upload.wikimedia.org/wikipedia/commons/f/f0/IVE_Yujin_2026_GDA.jpg"
-              alt="An Yu-jin 인물 사진"
-              draggable="false"
-            />
-            <div class="profile" aria-label="Yujin 프로필">
-              <img
-                class="profile-avatar"
-                src="https://upload.wikimedia.org/wikipedia/commons/f/f0/IVE_Yujin_2026_GDA.jpg"
-                alt=""
-                draggable="false"
-              />
-              <div class="profile-copy">
-                <span class="profile-name">Yujin</span>
-                <span class="profile-greeting">가까이 오시면 더 재미있어질 거예요.</span>
-              </div>
-            </div>
-          </article>
+        <div class="track"></div>
+        <div class="gesture-hint" aria-hidden="true">
+          좌우 클릭으로 사진 전환<br />
+          스와이프로 아이돌 전환
         </div>
       </section>
     </main>
@@ -301,15 +219,71 @@
     <script>
       const carousel = document.querySelector(".carousel");
       const track = document.querySelector(".track");
-      const originalSlides = Array.from(track.children);
-      const realSlideCount = originalSlides.length;
-      const firstClone = originalSlides[0].cloneNode(true);
-      const lastClone = originalSlides[realSlideCount - 1].cloneNode(true);
-
-      firstClone.setAttribute("aria-hidden", "true");
-      lastClone.setAttribute("aria-hidden", "true");
-      track.insertBefore(lastClone, originalSlides[0]);
-      track.appendChild(firstClone);
+      const gestureHint = document.querySelector(".gesture-hint");
+      const idols = [
+        {
+          name: "Jennie",
+          greeting: "눈 마주친 김에, 조금 더 머물러요.",
+          avatar:
+            "https://upload.wikimedia.org/wikipedia/commons/7/78/Jennie_2026_GDA_1.jpg",
+          photos: [
+            "https://upload.wikimedia.org/wikipedia/commons/7/78/Jennie_2026_GDA_1.jpg",
+            "https://upload.wikimedia.org/wikipedia/commons/1/1b/Kim_Jennie_%28%EA%B9%80%EC%A0%9C%EB%8B%88%29_05.jpg",
+            "https://upload.wikimedia.org/wikipedia/commons/7/72/Kim_Jennie_%28%EA%B9%80%EC%A0%9C%EB%8B%88%29_03.png",
+            "https://upload.wikimedia.org/wikipedia/commons/a/a9/170517_Jennie_Kim_Blackpink_05.jpg",
+          ],
+        },
+        {
+          name: "Jisoo",
+          greeting: "오늘은 제게만 집중해 주실래요?",
+          avatar:
+            "https://upload.wikimedia.org/wikipedia/commons/2/2e/Jisoo_at_Boyfriend_on_Demand_press_conference_on_26022026_%2812%29.png",
+          photos: [
+            "https://upload.wikimedia.org/wikipedia/commons/2/2e/Jisoo_at_Boyfriend_on_Demand_press_conference_on_26022026_%2812%29.png",
+            "https://upload.wikimedia.org/wikipedia/commons/b/b1/Kim_Ji-Soo_in_2020_PUBG_%282%29.png",
+            "https://upload.wikimedia.org/wikipedia/commons/b/ba/Kim_Ji-Soo_in_2020_PUBG_%281%29.png",
+            "https://upload.wikimedia.org/wikipedia/commons/4/4f/Kim_Ji-Soo_in_2020_Dior_%281%29.png",
+          ],
+        },
+        {
+          name: "Karina",
+          greeting: "천천히 넘겨도 괜찮아요.",
+          avatar:
+            "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fb/Karina_at_Love_Your_W_event_2025.jpg/1280px-Karina_at_Love_Your_W_event_2025.jpg",
+          photos: [
+            "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fb/Karina_at_Love_Your_W_event_2025.jpg/1280px-Karina_at_Love_Your_W_event_2025.jpg",
+            "https://upload.wikimedia.org/wikipedia/commons/1/12/230601_Karina_%28aespa%29.jpg",
+            "https://upload.wikimedia.org/wikipedia/commons/5/5e/Aespa_KARINA_Airport_Departure_on_20250226_01.png",
+            "https://upload.wikimedia.org/wikipedia/commons/0/08/Aespa_Karina_2024_MMA_2.jpg",
+          ],
+        },
+        {
+          name: "Wonyoung",
+          greeting: "지금 이 순간, 조금 설레도 괜찮아요.",
+          avatar:
+            "https://upload.wikimedia.org/wikipedia/commons/thumb/0/07/Jang_Won-young_at_the_Bulgari_Eclettica_event_in_Seoul%2C_May_12%2C_2026_%281%29.png/1280px-Jang_Won-young_at_the_Bulgari_Eclettica_event_in_Seoul%2C_May_12%2C_2026_%281%29.png",
+          photos: [
+            "https://upload.wikimedia.org/wikipedia/commons/thumb/0/07/Jang_Won-young_at_the_Bulgari_Eclettica_event_in_Seoul%2C_May_12%2C_2026_%281%29.png/1280px-Jang_Won-young_at_the_Bulgari_Eclettica_event_in_Seoul%2C_May_12%2C_2026_%281%29.png",
+            "https://upload.wikimedia.org/wikipedia/commons/9/9b/Jang_Won-young_of_Ive%2C_October_15%2C_2025_%282%29.png",
+            "https://upload.wikimedia.org/wikipedia/commons/4/42/Jang_Won-young_of_Ive%2C_October_15%2C_2025.png",
+            "https://upload.wikimedia.org/wikipedia/commons/d/d2/JANG_WON_YOUNG_%28%EC%9E%A5%EC%9B%90%EC%98%81%29_%E2%80%93_MIUMIU_PHOTOCALL_%E2%80%93_2025.06.20_%E2%80%93_P1.jpg",
+          ],
+        },
+        {
+          name: "Yujin",
+          greeting: "가까이 오시면 더 재미있어질 거예요.",
+          avatar:
+            "https://upload.wikimedia.org/wikipedia/commons/f/f0/IVE_Yujin_2026_GDA.jpg",
+          photos: [
+            "https://upload.wikimedia.org/wikipedia/commons/f/f0/IVE_Yujin_2026_GDA.jpg",
+            "https://upload.wikimedia.org/wikipedia/commons/d/d8/An_Yujin_%28%EC%95%88%EC%9C%A0%EC%A7%84%29_IVE_220916.jpg",
+            "https://upload.wikimedia.org/wikipedia/commons/8/89/IVE_An_Yujin_in_Marie_Claire_Korea_Feb_23%2C_2023.jpg",
+            "https://upload.wikimedia.org/wikipedia/commons/8/86/MMA_2023_IVE_Yujin_1.jpg",
+          ],
+        },
+      ];
+      const realSlideCount = idols.length;
+      const photoIndexes = idols.map(() => 0);
 
       let isDragging = false;
       let startX = 0;
@@ -317,8 +291,94 @@
       let currentOffset = 0;
       let dragOffset = 0;
 
+      function createSlide(idol, idolIndex) {
+        const slide = document.createElement("article");
+        slide.className = "slide";
+        slide.dataset.idolIndex = idolIndex;
+        slide.innerHTML = `
+          <img
+            class="portrait"
+            src="${idol.photos[photoIndexes[idolIndex]]}"
+            alt="${idol.name} 인물 사진"
+            draggable="false"
+          />
+          <div
+            class="photo-indicator"
+            style="--photo-count: ${idol.photos.length}"
+            aria-label="${idol.name} 사진 위치"
+          >
+            ${idol.photos
+              .map(
+                (_, photoIndex) =>
+                  `<span class="${photoIndex === photoIndexes[idolIndex] ? "is-active" : ""}"></span>`,
+              )
+              .join("")}
+          </div>
+          <div class="profile" aria-label="${idol.name} 프로필">
+            <img
+              class="profile-avatar"
+              src="${idol.avatar}"
+              alt=""
+              draggable="false"
+            />
+            <div class="profile-copy">
+              <span class="profile-name">${idol.name}</span>
+              <span class="profile-greeting">${idol.greeting}</span>
+            </div>
+          </div>
+        `;
+        return slide;
+      }
+
+      function updatePhoto(idolIndex) {
+        const idol = idols[idolIndex];
+        const photo = idol.photos[photoIndexes[idolIndex]];
+        const slides = track.querySelectorAll(`[data-idol-index="${idolIndex}"]`);
+
+        slides.forEach((slide) => {
+          const portrait = slide.querySelector(".portrait");
+          const indicatorBars = slide.querySelectorAll(".photo-indicator span");
+          portrait.src = photo;
+          portrait.alt = `${idol.name} 인물 사진`;
+          indicatorBars.forEach((bar, index) => {
+            bar.classList.toggle("is-active", index === photoIndexes[idolIndex]);
+          });
+        });
+      }
+
+      function changeCurrentPhoto(direction) {
+        const realIndex = getRealIndex();
+        const photos = idols[realIndex].photos;
+        photoIndexes[realIndex] =
+          (photoIndexes[realIndex] + direction + photos.length) % photos.length;
+        updatePhoto(realIndex);
+      }
+
+      function hideGestureHint() {
+        gestureHint.classList.add("is-hidden");
+      }
+
+      function buildSlides() {
+        idols.forEach((idol, index) => track.appendChild(createSlide(idol, index)));
+
+        const slides = Array.from(track.children);
+        const firstClone = slides[0].cloneNode(true);
+        const lastClone = slides[slides.length - 1].cloneNode(true);
+
+        firstClone.setAttribute("aria-hidden", "true");
+        lastClone.setAttribute("aria-hidden", "true");
+        track.insertBefore(lastClone, slides[0]);
+        track.appendChild(firstClone);
+      }
+
       function moveTrack(offset) {
         track.style.transform = `translate3d(${offset}px, 0, 0)`;
+      }
+
+      function getRealIndex() {
+        if (currentIndex === 0) return realSlideCount - 1;
+        if (currentIndex === realSlideCount + 1) return 0;
+        return currentIndex - 1;
       }
 
       function jumpTo(index) {
@@ -348,12 +408,14 @@
         }
       }
 
+      buildSlides();
       jumpTo(currentIndex);
 
       carousel.addEventListener("pointerdown", (event) => {
         isDragging = true;
         startX = event.clientX;
         dragOffset = currentOffset;
+        hideGestureHint();
         carousel.classList.add("is-dragging");
         carousel.setPointerCapture(event.pointerId);
       });
@@ -373,14 +435,20 @@
         carousel.classList.remove("is-dragging");
 
         const distance = event.clientX - startX;
-        const swipeThreshold = 4;
-        let targetIndex = currentIndex;
+        const clickThreshold = 8;
+        const swipeThreshold = 28;
 
-        if (Math.abs(distance) > swipeThreshold) {
-          targetIndex = distance < 0 ? currentIndex + 1 : currentIndex - 1;
+        if (Math.abs(distance) <= clickThreshold) {
+          const rect = carousel.getBoundingClientRect();
+          const direction = event.clientX < rect.left + rect.width / 2 ? -1 : 1;
+          slideTo(currentIndex);
+          changeCurrentPhoto(direction);
+        } else if (Math.abs(distance) > swipeThreshold) {
+          const targetIndex = distance < 0 ? currentIndex + 1 : currentIndex - 1;
+          slideTo(targetIndex);
+        } else {
+          slideTo(currentIndex);
         }
-
-        slideTo(targetIndex);
 
         if (carousel.hasPointerCapture(event.pointerId)) {
           carousel.releasePointerCapture(event.pointerId);
