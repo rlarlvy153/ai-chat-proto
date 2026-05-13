@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>AI Chat Proto</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        margin: 0;
+        min-height: 100%;
+      }
+
+      body {
+        display: grid;
+        min-height: 100vh;
+        place-items: center;
+        background: #ffffff;
+      }
+
+      .mobile-screen {
+        width: 320px;
+        height: 640px;
+        background: #000000;
+        border-radius: 32px;
+      }
+
+      @media (max-width: 380px), (max-height: 700px) {
+        .mobile-screen {
+          width: min(84vw, 320px);
+          height: min(78vh, 640px);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="mobile-screen" aria-label="모바일 화면 프로토타입"></main>
+  </body>
+</html>
