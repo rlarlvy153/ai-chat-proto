@@ -23,10 +23,63 @@
       }
 
       .mobile-screen {
+        position: relative;
+        overflow: hidden;
         width: 320px;
         height: 640px;
         background: #000000;
         border-radius: 32px;
+      }
+
+      .carousel {
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        cursor: grab;
+        touch-action: pan-y;
+        user-select: none;
+      }
+
+      .carousel.is-dragging {
+        cursor: grabbing;
+      }
+
+      .track {
+        display: flex;
+        width: 100%;
+        height: 100%;
+        transform: translate3d(0, 0, 0);
+        transition: transform 220ms ease;
+        will-change: transform;
+      }
+
+      .carousel.is-dragging .track {
+        transition: none;
+      }
+
+      .slide {
+        position: relative;
+        flex: 0 0 100%;
+        width: 100%;
+        height: 100%;
+      }
+
+      .slide img {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        pointer-events: none;
+      }
+
+      .slide::after {
+        position: absolute;
+        inset: 0;
+        content: "";
+        background:
+          linear-gradient(to bottom, rgba(0, 0, 0, 0.08), transparent 34%),
+          linear-gradient(to top, rgba(0, 0, 0, 0.38), transparent 34%);
+        pointer-events: none;
       }
 
       @media (max-width: 380px), (max-height: 700px) {
@@ -38,6 +91,110 @@
     </style>
   </head>
   <body>
-    <main class="mobile-screen" aria-label="모바일 화면 프로토타입"></main>
+    <main class="mobile-screen" aria-label="모바일 사진 스와이프 프로토타입">
+      <section class="carousel" aria-label="사진 캐러셀">
+        <div class="track">
+          <article class="slide">
+            <img
+              src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=900&q=85"
+              alt="갈색 머리 여성이 웃고 있는 인물 사진"
+              draggable="false"
+            />
+          </article>
+          <article class="slide">
+            <img
+              src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=900&q=85"
+              alt="긴 머리 여성의 자연광 인물 사진"
+              draggable="false"
+            />
+          </article>
+          <article class="slide">
+            <img
+              src="https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?auto=format&fit=crop&w=900&q=85"
+              alt="흰 셔츠를 입은 여성 인물 사진"
+              draggable="false"
+            />
+          </article>
+          <article class="slide">
+            <img
+              src="https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=900&q=85"
+              alt="도시 배경의 여성 인물 사진"
+              draggable="false"
+            />
+          </article>
+          <article class="slide">
+            <img
+              src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=900&q=85"
+              alt="카메라를 바라보는 여성 인물 사진"
+              draggable="false"
+            />
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <script>
+      const carousel = document.querySelector(".carousel");
+      const track = document.querySelector(".track");
+      let isDragging = false;
+      let startX = 0;
+      let currentIndex = 0;
+      let currentOffset = 0;
+      let dragOffset = 0;
+
+      function moveTrack(offset) {
+        track.style.transform = `translate3d(${offset}px, 0, 0)`;
+      }
+
+      function snapTo(index) {
+        const slideCount = track.children.length;
+        currentIndex = Math.max(0, Math.min(slideCount - 1, index));
+        currentOffset = -currentIndex * carousel.clientWidth;
+        dragOffset = currentOffset;
+        moveTrack(currentOffset);
+      }
+
+      carousel.addEventListener("pointerdown", (event) => {
+        isDragging = true;
+        startX = event.clientX;
+        dragOffset = currentOffset;
+        carousel.classList.add("is-dragging");
+        carousel.setPointerCapture(event.pointerId);
+      });
+
+      carousel.addEventListener("pointermove", (event) => {
+        if (!isDragging) return;
+        event.preventDefault();
+        const distance = event.clientX - startX;
+        dragOffset = currentOffset + distance;
+        moveTrack(dragOffset);
+      });
+
+      function stopDragging(event) {
+        if (!isDragging) return;
+
+        isDragging = false;
+        carousel.classList.remove("is-dragging");
+
+        const distance = event.clientX - startX;
+        const swipeThreshold = 4;
+        let targetIndex = currentIndex;
+
+        if (Math.abs(distance) > swipeThreshold) {
+          targetIndex = distance < 0 ? currentIndex + 1 : currentIndex - 1;
+        }
+
+        snapTo(targetIndex);
+
+        if (carousel.hasPointerCapture(event.pointerId)) {
+          carousel.releasePointerCapture(event.pointerId);
+        }
+      }
+
+      carousel.addEventListener("pointerup", stopDragging);
+      carousel.addEventListener("pointercancel", stopDragging);
+      carousel.addEventListener("pointerleave", stopDragging);
+      window.addEventListener("resize", () => snapTo(currentIndex));
+    </script>
   </body>
 </html>
