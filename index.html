@@ -96,36 +96,36 @@
         <div class="track">
           <article class="slide">
             <img
-              src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=900&q=85"
-              alt="갈색 머리 여성이 웃고 있는 인물 사진"
+              src="https://upload.wikimedia.org/wikipedia/commons/7/78/Jennie_2026_GDA_1.jpg"
+              alt="Jennie 인물 사진"
               draggable="false"
             />
           </article>
           <article class="slide">
             <img
-              src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=900&q=85"
-              alt="긴 머리 여성의 자연광 인물 사진"
+              src="https://upload.wikimedia.org/wikipedia/commons/2/2e/Jisoo_at_Boyfriend_on_Demand_press_conference_on_26022026_%2812%29.png"
+              alt="Jisoo 인물 사진"
               draggable="false"
             />
           </article>
           <article class="slide">
             <img
-              src="https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?auto=format&fit=crop&w=900&q=85"
-              alt="흰 셔츠를 입은 여성 인물 사진"
+              src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/fb/Karina_at_Love_Your_W_event_2025.jpg/1280px-Karina_at_Love_Your_W_event_2025.jpg"
+              alt="Karina 인물 사진"
               draggable="false"
             />
           </article>
           <article class="slide">
             <img
-              src="https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=900&q=85"
-              alt="도시 배경의 여성 인물 사진"
+              src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/07/Jang_Won-young_at_the_Bulgari_Eclettica_event_in_Seoul%2C_May_12%2C_2026_%281%29.png/1280px-Jang_Won-young_at_the_Bulgari_Eclettica_event_in_Seoul%2C_May_12%2C_2026_%281%29.png"
+              alt="Jang Won-young 인물 사진"
               draggable="false"
             />
           </article>
           <article class="slide">
             <img
-              src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=900&q=85"
-              alt="카메라를 바라보는 여성 인물 사진"
+              src="https://upload.wikimedia.org/wikipedia/commons/f/f0/IVE_Yujin_2026_GDA.jpg"
+              alt="An Yu-jin 인물 사진"
               draggable="false"
             />
           </article>
@@ -148,7 +148,7 @@
 
       function snapTo(index) {
         const slideCount = track.children.length;
-        currentIndex = Math.max(0, Math.min(slideCount - 1, index));
+        currentIndex = (index + slideCount) % slideCount;
         currentOffset = -currentIndex * carousel.clientWidth;
         dragOffset = currentOffset;
         moveTrack(currentOffset);
