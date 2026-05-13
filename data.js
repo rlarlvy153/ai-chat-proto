@@ -19,7 +19,11 @@ window.APP_DATA = {
         lifestyle:
           "루프톱 바, 늦은 밤 드라이브, 은은한 향수, 긴 눈맞춤, 살짝 긴장되는 대화를 좋아해요.",
       },
-      photos: ["assets/portraits/minseo.png"],
+      photos: [
+        "assets/portraits/minseo.png",
+        "assets/portraits/minseo-2.png",
+        "assets/portraits/minseo-bikini.png",
+      ],
     },
     {
       name: "Jiho",
@@ -40,7 +44,11 @@ window.APP_DATA = {
         lifestyle:
           "늦은 밤 드라이브 좋아해. 시끄러운 곳보단 어두운 바, 씁쓸한 커피, 재즈, 쉽게 끝나지 않는 대화가 더 맞아.",
       },
-      photos: ["assets/portraits/jiho.png"],
+      photos: [
+        "assets/portraits/jiho.png",
+        "assets/portraits/jiho-2.png",
+        "assets/portraits/jiho-workout.png",
+      ],
     },
     {
       name: "Seoyeon",
