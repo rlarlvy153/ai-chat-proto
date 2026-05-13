@@ -100,6 +100,22 @@ function createSlide(idol, idolIndex) {
           <dd>${idol.profile.bodyProfile}</dd>
         </div>
         <div class="intro-detail">
+          <dt>음주</dt>
+          <dd>${idol.profile.drinking}</dd>
+        </div>
+        <div class="intro-detail">
+          <dt>흡연</dt>
+          <dd>${idol.profile.smoking}</dd>
+        </div>
+        <div class="intro-detail">
+          <dt>별자리</dt>
+          <dd>${idol.profile.zodiac}</dd>
+        </div>
+        <div class="intro-detail">
+          <dt>학력</dt>
+          <dd>${idol.profile.education}</dd>
+        </div>
+        <div class="intro-detail">
           <dt>직업</dt>
           <dd>${idol.profile.job}</dd>
         </div>
