@@ -81,5 +81,21 @@ window.APP_DATA = {
       },
       photos: ["assets/portraits/hayoon.png"],
     },
+    {
+      name: "Nari",
+      greeting: "밝은 오후처럼 편하게 인사드릴게요.",
+      avatar: "assets/portraits/nari.png",
+      profile: {
+        intro:
+          "햇살이 드는 서점과 데님 스타일이 잘 어울리는 가상 캐릭터입니다.",
+        bodyProfile:
+          "짧은 헤어와 깨끗한 데일리룩이 조화로운 3D 애니풍 인물입니다.",
+        job: "일러스트레이터",
+        personality:
+          "호기심이 많고 솔직하며, 작은 이야기도 즐겁게 받아주는 밝은 타입",
+        lifestyle: "서점, 드로잉, 산책, 필름 사진, 담백한 데일리룩",
+      },
+      photos: ["assets/portraits/nari.png"],
+    },
   ],
 };
