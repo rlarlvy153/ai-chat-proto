@@ -1358,6 +1358,8 @@
           normalizeLoopPosition();
         }
       });
+      track.addEventListener("pointerup", stopIntroPanelScroll);
+      track.addEventListener("pointercancel", stopIntroPanelScroll);
 
       carousel.addEventListener("pointerup", stopDragging);
       carousel.addEventListener("pointercancel", stopDragging);
