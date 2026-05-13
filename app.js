@@ -145,6 +145,17 @@ function hideGestureHint() {
   gestureHint.classList.add("is-hidden");
 }
 
+function preloadPortraits() {
+  const imageSources = new Set(
+    idols.flatMap((idol) => [idol.avatar, ...idol.photos]),
+  );
+
+  imageSources.forEach((src) => {
+    const image = new Image();
+    image.src = src;
+  });
+}
+
 function setActiveTab(tabName) {
   tabPanels.forEach((panel) => {
     panel.classList.toggle("is-active", panel.dataset.tabPanel === tabName);
@@ -381,8 +392,8 @@ function moveTrack(offset) {
 }
 
 function getRealIndex() {
-  if (currentIndex === 0) return realSlideCount - 1;
-  if (currentIndex === realSlideCount + 1) return 0;
+  if (currentIndex <= 0) return realSlideCount - 1;
+  if (currentIndex >= realSlideCount + 1) return 0;
   return currentIndex - 1;
 }
 
@@ -397,27 +408,29 @@ function jumpTo(index) {
 }
 
 function slideTo(index) {
-  currentIndex = index;
+  currentIndex = Math.max(0, Math.min(realSlideCount + 1, index));
   currentOffset = -currentIndex * carousel.clientWidth;
   dragOffset = currentOffset;
   moveTrack(currentOffset);
 }
 
 function normalizeLoopPosition() {
-  if (currentIndex === 0) {
+  if (currentIndex <= 0) {
     jumpTo(realSlideCount);
   }
 
-  if (currentIndex === realSlideCount + 1) {
+  if (currentIndex >= realSlideCount + 1) {
     jumpTo(1);
   }
 }
 
+preloadPortraits();
 buildSlides();
 jumpTo(currentIndex);
 renderChatList();
 
 carousel.addEventListener("pointerdown", (event) => {
+  normalizeLoopPosition();
   isDragging = true;
   startX = event.clientX;
   dragOffset = currentOffset;
@@ -430,7 +443,11 @@ carousel.addEventListener("pointermove", (event) => {
   if (!isDragging) return;
   event.preventDefault();
   const distance = event.clientX - startX;
-  dragOffset = currentOffset + distance;
+  const slideWidth = carousel.clientWidth;
+  const minOffset = -(currentIndex + 1) * slideWidth;
+  const maxOffset = -(currentIndex - 1) * slideWidth;
+  const nextOffset = currentOffset + distance;
+  dragOffset = Math.max(minOffset, Math.min(maxOffset, nextOffset));
   moveTrack(dragOffset);
 });
 
